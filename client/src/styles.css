@@ -1,0 +1,80 @@
+.Btn {
+  display:flex;
+  justify-content: center;
+  align-items: center;
+  border: solid white 3px;
+  border-radius: 7px;
+  padding: 5px;
+  height: 35px;
+  width : 100px;
+  text-align: center;
+  background-color: white;
+  transition: all 0.75s ease-out 100ms;
+}
+
+.Btn:hover {
+  background-color: black;
+  color: white;
+  border-color: black;
+  transition: all 0.5s ease-out 100ms;
+}
+
+.TopContainer {
+  padding: 5px;
+  border-bottom: black 3px solid;
+  background-color: #262626;
+}
+
+.NavBar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 10%;
+  width: 90%;
+  margin: auto;
+}
+
+.imgFrame {
+  border: black solid 1px;
+  border-radius: 7px;
+  height: 30px;
+  overflow: hidden;
+}
+
+.HomepageIcon {
+  height:30px;
+  object-fit: scale-down;
+}
+
+.HomeContainer {
+  display: flex;
+  justify-content: space-around;
+  height: 100%;
+}
+
+.NutritionPanel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
+  width: 50%;
+  background-image: url('https://s30386.pcdn.co/wp-content/uploads/2020/02/p1bm5844cb6oacnd1std183s12gt6.jpg.optimal.jpg');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: 0%;
+  border: black 1px solid;
+}
+
+.LiftsPanel {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 700px;
+  width: 50%;
+  background-image: url('https://media.istockphoto.com/photos/log-wood-isolated-on-a-white-background-picture-id945550172?b=1&k=20&m=945550172&s=170667a&w=0&h=06iy6-I-pO0-bRff5aThmLymZuvlF3dGaiq-8Y6l3iU=');
+  background-size: 100%;
+  background-repeat: no-repeat;
+  background-position: 0%;
+  border: black 1px solid;
+}
+
