@@ -7,14 +7,15 @@ import { MdAddBox, MdOutlineUpdate } from "react-icons/md";
 import LiftEntry from './LiftEntry.jsx';
 import { convertDatefromUnix, convertDatetoUnix } from './helpers.jsx';
 let date = new Date();
+let dateUnix = date.getTime();
 let entryTemplate = {
   "id": 0,
   "week": 0,
   "day": 0,
   "exercise": '',
-  "weight": 0,
-  "set": 0,
-  "reps": 0,
+  "weight": '',
+  "set": '',
+  "reps": '',
   "rating": 5,
   "notes": '',
   "year": date.getFullYear(),
@@ -23,7 +24,7 @@ let entryTemplate = {
 };
 
 const Lifts = () => {
-  let [ listOfEntries, setListOfEntries ] = useState([entryTemplate]);
+  let [ listOfEntries, setListOfEntries ] = useState([JSON.parse(JSON.stringify(entryTemplate))]);
   let [ listOfExercises, setListOfExercises ] = useState([]);
   let [ calday, setCalday ] = useState(date.getDate());
   let [ month, setMonth ] = useState(date.getMonth() + 1);
@@ -44,23 +45,18 @@ const Lifts = () => {
     if(state==='year') {if (parseInt(value) > date.getFullYear()){value = `${date.getFullYear()}`}; setYear(parseInt(value))};
   }
 
-  let handleEntryChange = () => {
-
-  };
-
   let toToday = () => {
-    let date = new Date();
-    let time = convertDatefromUnix(new Date());
+    let time = convertDatefromUnix(dateUnix);
     Promise.all([ setCalday(time.calday), setMonth(time.month), setYear(time.year) ])
     .then(()=>{logGoToDate(time.year, time.month, time.calday)});
   }
 
   let logGoToDate = async (year, month, calday) => {
-    setListOfEntries([entryTemplate]);
+    setListOfEntries([JSON.parse(JSON.stringify(entryTemplate))]);
     let date = convertDatetoUnix(year, month, calday);
     let response = await axios.get(`http://localhost:3000/lifts/date/${date}`);
     response = response.data.rows;
-    response = [entryTemplate].concat(response);
+    response = [JSON.parse(JSON.stringify(entryTemplate))].concat(response);
     Promise.all([setListOfEntries(response)]);
   }
 
@@ -76,32 +72,42 @@ const Lifts = () => {
 
   let addLift = () => {
     let copyOfEntries = [...listOfEntries];
-    let newEntry = entryTemplate;
+    let newEntry = JSON.parse(JSON.stringify(entryTemplate));
     copyOfEntries.push(newEntry);
+
+    console.log(copyOfEntries);
+
     setListOfEntries(copyOfEntries);
   };
 
-  let saveToDB = () => {
+  let queryDB = () => {
     let promises = [];
     let copyList = [...listOfEntries];
     for ( let i = 1; i < copyList.length; i++ ) {
       let curEntry = copyList[i];
       let id = curEntry['id'];
 
-      console.log(curEntry);
-      console.log(curEntry.year, curEntry.month, curEntry.calday);
       let date = convertDatetoUnix(curEntry.year, curEntry.month, curEntry.calday);
-      console.log(date);
+      curEntry['date'] = date;
+      delete curEntry['year'];
+      delete curEntry['month'];
+      delete curEntry['calday'];
 
-      if (id !== 0) {
-        // old, update
-        promises.push(axios.put(`http://localhost:3000/lifts`, curEntry));
+      if (id !== 0) { // requires attention
+        if ( !curEntry.rating ) {promises.push(axios.delete(`http://localhost:3000/lifts/${id}`)) } // marked for deletion
+        else { promises.push(axios.put(`http://localhost:3000/lifts`, curEntry)) }; // old, update
+
       } else if ( id === 0 ) {
         // new, insert
-        promises.push(axios.post(`http://localhost:3000/lifts`, curEntry));
+        if ( !curEntry['weight'] ) { curEntry['weight'] = 0 };
+        if ( !curEntry['set'] ) { curEntry['set'] = 0; };
+        if ( !curEntry['reps'] ) { curEntry['reps'] = 0 };
+        if( curEntry['exercise'] ) {promises.push(axios.post(`http://localhost:3000/lifts`, curEntry));  }
+        // send only if there's a name for the exercise
       }
     }
-    console.log(promises);
+    Promise.all(promises)
+    .then(()=>{console.log('Success! All entries updated or posted!')});
   };
 
   // TODOs:
@@ -128,14 +134,14 @@ const Lifts = () => {
         <div className='button' onClick={()=>{logGoToDate(year, month, calday)}}><MdOutlineUpdate className='UpdateBtn' /></div>
       </div>
       {listOfEntries.map((entry, index) => {
-        if (index === 0) {return null};
+        if (index === 0 || !entry.rating) {return null};
         return (
           <LiftEntry entry={entry} key={index} exerciseList={listOfExercises} entryState={listOfEntries} updateEntryState={setListOfEntries} index={index} />
         )
       })}
       <div className= 'BtnRow'>
         <div className='button' onClick={addLift} ><MdAddBox className='AddBtn'/></div>
-        <div className='button' onClick={saveToDB} ><RiSave3Fill className='SaveBtn' /></div>
+        <div className='button' onClick={queryDB} ><RiSave3Fill className='SaveBtn' /></div>
       </div>
     </div>
   )

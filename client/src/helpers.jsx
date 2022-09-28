@@ -1,9 +1,9 @@
 export const convertDatefromUnix = (date) => {
   date = new Date(date);
   let month = date.getMonth() + 1;
-  let calDay = date.getDate();
+  let calday = date.getDate();
   let year = date.getFullYear();
-  return { month, calDay, year };
+  return { month, calday, year };
 }
 
 export const convertDatetoUnix = ( year, month, calDay ) => {

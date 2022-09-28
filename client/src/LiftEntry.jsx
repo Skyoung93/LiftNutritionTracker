@@ -2,6 +2,10 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import ListOfExercisesContext from './Lifts.jsx';
 
+import { TiArrowLeftThick } from 'react-icons/ti';
+import { ImCross } from 'react-icons/im';
+
+
 const LiftEntry = ({ entry, exerciseList, index, entryState, updateEntryState })=> {
   if (!exerciseList) {exerciseList = []};
 
@@ -14,7 +18,7 @@ const LiftEntry = ({ entry, exerciseList, index, entryState, updateEntryState })
 
   let colors = [ 'white', 'red', 'blue', 'yellow', 'green' ];
 
-  useEffect( ()=>{
+  useEffect(()=>{
     let copyEntries = [...entryState];
     let copyCurEntry = copyEntries[index];
     copyCurEntry['exercise'] = exercise;
@@ -23,24 +27,39 @@ const LiftEntry = ({ entry, exerciseList, index, entryState, updateEntryState })
     copyCurEntry['reps'] = reps;
     copyCurEntry['rating'] = rating;
     copyCurEntry['notes'] = notes;
-    updateEntryState(copyEntries)
+    updateEntryState(copyEntries);
   }, [ exercise, weight, set, reps, rating, notes ]);
+
+  let deleteEntry = async () => {
+    let copyEntries = [...entryState];
+    let curEntry = copyEntries[index];
+    let curEntryID = copyEntries[index]['id'];
+    curEntry = {};
+    curEntry['id'] = curEntryID;
+    copyEntries[index] = curEntry;
+    console.log(copyEntries);
+    updateEntryState(copyEntries);
+  }
 
   return (
     <div className="LiftEntryContainer">
       <div className="TopRow" style={{borderBottom: `${colors[index % 5]} solid 3px`}}>
-        <div className="ExerciseName">
+        <div></div>
+        <div className="ExerciseInput">
           <div className='Label'>Exercise:</div>
           <input className='ExerciseEntry' type="text" value={exercise} onChange={(e)=>{setExercise(e.target.value)}}></input>
-          <div className='Arrow'>&#60;</div>
+          <TiArrowLeftThick className='arrow' />
           <select className='PreviousDropdown' onChange={(e)=>{setExercise(e.target.value)}}>
-            <option value='' key={-1}>Previous Exercises</option>
+            <option value='' key={-1}>Excercises</option>
             {exerciseList.map(( exercise, index ) => {
               return(
               <option value={exercise} key={index} >{exercise}</option>
               )
             })}
           </select>
+        </div>
+        <div className='DeleteEntryButton' >
+          <ImCross className='DelBtn' onClick={deleteEntry} />
         </div>
       </div>
       <div className="MidRow">
@@ -62,7 +81,7 @@ const LiftEntry = ({ entry, exerciseList, index, entryState, updateEntryState })
         </div>
         <div className="notes">
           <div className='Label'>Notes:</div>
-          <input className='NotesInput' type="text" value={notes} onChange={(e)=>{setNotes(e.target.value)}} placeholder='What you thinking?' ></input>
+          <input className='NotesInput' type="text" value={notes} onChange={(e)=>{setNotes(e.target.value)}} placeholder={`What are you thinking?`} ></input>
         </div>
       </div>
       <div className="BotRow">

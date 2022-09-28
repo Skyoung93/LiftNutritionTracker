@@ -170,11 +170,11 @@ Lift Tracker
 .TopRow {
   display: flex;
   flex-direction: row;
-  justify-content: center;
+  justify-content: space-between;
   padding: 6px;
 }
 
-.ExerciseName {
+.ExerciseInput {
   display: flex;
 }
 
@@ -182,16 +182,27 @@ Lift Tracker
   width: 200px;
 }
 
-.Arrow {
+.arrow {
   padding: 0 5px;
   display: flex;
   align-items: center;
+  height: 30px;
+  font-size: 30px;
+}
+
+.DelBtn {
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+  height: 30px;
+  font-size: 20px;
 }
 
 .PreviousDropdown {
-  height: 29px;
+  height: 33px;
   padding: 0 1px 2px 0;
   font-size: 20px;
+  text-align: center;
 }
 
 .MidRow {
@@ -251,10 +262,11 @@ Lift Tracker
     text-align: center;
   }
 
-
   .PreviousDropdown {
-    height: 27px;
+    height: 30px;
+    width: 87px;
     padding: 0 1px 2px 0;
     font-size: 13px;
+    text-align: center;
   }
 }
