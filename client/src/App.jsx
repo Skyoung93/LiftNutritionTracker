@@ -27,9 +27,9 @@ const App = () => {
         {display === 'Homepage' ?
           <Homepage /> :
         display === 'Nutrition' ?
-          <div>NUT</div> :
+          <Nutrition />:
         display === 'Lifts' ?
-          <div>FITNESS</div>:
+          <Lifts /> :
         null}
       </PageStateContext.Provider>
     </>

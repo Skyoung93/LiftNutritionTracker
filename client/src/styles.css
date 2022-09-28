@@ -1,15 +1,21 @@
+html {
+  background-color: rgb(215, 215, 219);
+  font-size: 20px;
+}
+
 .Btn {
   display:flex;
   justify-content: center;
   align-items: center;
   border: solid white 3px;
   border-radius: 7px;
-  padding: 5px;
+  padding: 5px 0;
   height: 35px;
   width : 100px;
   text-align: center;
   background-color: white;
   transition: all 0.75s ease-out 100ms;
+  margin: 3px;
 }
 
 .Btn:hover {
@@ -19,7 +25,53 @@
   transition: all 0.5s ease-out 100ms;
 }
 
+input {
+  text-align: center;
+  width: 100px;
+  font-size: 20px;
+}
+
+.LabelContainer {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.Label {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight:bold;
+  padding:5px;
+}
+
+.button {
+  font-size: 20px;
+  font-weight: bold;
+  width: 100px;
+  border: black solid 3px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: white;
+  transition: all 0.5s ease-out 100ms;
+}
+
+.button:hover {
+  background-color: black;
+  color: white;
+  border-color: black;
+  transition: all 0.5s ease-out 100ms;
+}
+
+/*------------------------------------------------
+NavBar
+------------------------------------------------*/
+
 .TopContainer {
+  display: flex;
+  justify-content: space-around;
   padding: 5px;
   border-bottom: black 3px solid;
   background-color: #262626;
@@ -31,19 +83,32 @@
   align-items: center;
   height: 10%;
   width: 90%;
-  margin: auto;
 }
 
 .imgFrame {
   border: black solid 1px;
   border-radius: 7px;
-  height: 30px;
+  max-height: 45px;
   overflow: hidden;
 }
 
 .HomepageIcon {
-  height:30px;
+  height:45px;
   object-fit: scale-down;
+}
+
+.NutritionIcon {
+  height:45px;
+  object-fit: scale-down;
+}
+
+.TrainLogIcon {
+  max-height:45px;
+  max-width: 100px;
+  display: flex;
+  justify-content: center;
+  object-fit: scale-down;
+
 }
 
 .HomeContainer {
@@ -78,3 +143,118 @@
   border: black 1px solid;
 }
 
+/*------------------------------------------------
+Nutrition Tracker
+------------------------------------------------*/
+
+/*------------------------------------------------
+Lift Tracker
+------------------------------------------------*/
+.DateDisplay {
+  display: flex;
+  justify-content: space-around;
+  border: solid black 3px;
+  border-radius: 7px;
+  padding: 3px;
+  margin-top: 3px;
+}
+
+.LiftEntryContainer {
+  display: flex;
+  flex-direction: column;
+  border: solid black 3px;
+  border-radius: 7px;
+  margin: 3px 0;
+}
+
+.TopRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 6px;
+}
+
+.ExerciseName {
+  display: flex;
+}
+
+.ExerciseEntry {
+  width: 200px;
+}
+
+.Arrow {
+  padding: 0 5px;
+  display: flex;
+  align-items: center;
+}
+
+.PreviousDropdown {
+  height: 29px;
+  padding: 0 1px 2px 0;
+  font-size: 20px;
+}
+
+.MidRow {
+  padding: 6px;
+  display: flex;
+}
+
+.MidRowEntry {
+  width: 15%;
+  text-align: center;
+  display:flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.NotesInput {
+  width: 95%;
+  text-align: left;
+  overflow:scroll;
+}
+
+.notes {
+  display: flex;
+  flex-direction: column;
+  width:40%;
+}
+
+.UpdateBtn, .SaveBtn, .AddBtn {
+  height: 30px;
+  font-size: 30px;
+}
+
+.BtnRow {
+  display: flex;
+  justify-content: space-around;
+}
+
+@media only screen and (max-width: 600px) {
+  html {
+    background-color: rgb(215, 215, 219);
+    font-size: 15px;
+  }
+
+  input {
+    text-align: center;
+    width: 30px;
+    font-size: 13px;
+  }
+
+  .ExerciseEntry {
+    width: 87px;
+  }
+
+  .button {
+    font-size: 15px;
+    width:70px;
+    text-align: center;
+  }
+
+
+  .PreviousDropdown {
+    height: 27px;
+    padding: 0 1px 2px 0;
+    font-size: 13px;
+  }
+}
