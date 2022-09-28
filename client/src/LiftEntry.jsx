@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import ListOfExercisesContext from './Lifts.jsx';
 
 import { TiArrowLeftThick } from 'react-icons/ti';
-import { ImCross } from 'react-icons/im';
+import { BsXCircleFill } from 'react-icons/bs';
 
 
 const LiftEntry = ({ entry, exerciseList, index, entryState, updateEntryState })=> {
@@ -16,7 +15,7 @@ const LiftEntry = ({ entry, exerciseList, index, entryState, updateEntryState })
   let [ rating, setRating ] = useState(entry.rating);
   let [ notes, setNotes ] = useState(entry.notes);
 
-  let colors = [ 'white', 'red', 'blue', 'yellow', 'green' ];
+  let colors = [ 'white', '#533243', '#2C427C', '#D9CA6F', '#567361' ];
 
   useEffect(()=>{
     let copyEntries = [...entryState];
@@ -59,7 +58,7 @@ const LiftEntry = ({ entry, exerciseList, index, entryState, updateEntryState })
           </select>
         </div>
         <div className='DeleteEntryButton' >
-          <ImCross className='DelBtn' onClick={deleteEntry} />
+          <BsXCircleFill className='DelBtn' onClick={()=>{console.log('test'); deleteEntry()}} style={{color: `${colors[index % 5]}`} } />
         </div>
       </div>
       <div className="MidRow">
@@ -77,7 +76,7 @@ const LiftEntry = ({ entry, exerciseList, index, entryState, updateEntryState })
         </div>
         <div className="MidRowEntry">
           <div className='Label'>Rating:</div>
-          <input type="number" className='input' value={rating} onChange={(e)=>{if (e.target.value >= 0 && e.target.value <= 5 && e.target.value % 1 === 0) {setRating(e.target.value)}}} ></input>
+          <input type="number" className='input' value={rating} onChange={(e)=>{if (e.target.value > 0 && e.target.value <= 5 && e.target.value % 1 === 0) {setRating(e.target.value)}}} ></input>
         </div>
         <div className="notes">
           <div className='Label'>Notes:</div>

@@ -12,10 +12,6 @@ export const PageStateContext = createContext({
 })
 
 const App = () => {
-  // possible states:
-  //- Home (Default)
-  // - Nutrition
-  // - Lifting
   let [ display, setDisplay ] = useState('Homepage');
   let currentDisplay = { display, setDisplay };
 

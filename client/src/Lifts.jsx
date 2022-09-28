@@ -6,6 +6,7 @@ import { MdAddBox, MdOutlineUpdate } from "react-icons/md";
 
 import LiftEntry from './LiftEntry.jsx';
 import { convertDatefromUnix, convertDatetoUnix } from './helpers.jsx';
+
 let date = new Date();
 let dateUnix = date.getTime();
 let entryTemplate = {
@@ -22,15 +23,19 @@ let entryTemplate = {
   "month": date.getMonth() + 1,
   "calday": date.getDate()
 };
+// make a copy of entry templay using
+// JSON.parse(JSON.stringify(entryTemplate))
 
 const Lifts = () => {
+  // for future use, to implement WXDX in display
+  let [ week, setWeek ] = useState(0);
+  let [ day, setDay ] = useState(0);
+
   let [ listOfEntries, setListOfEntries ] = useState([JSON.parse(JSON.stringify(entryTemplate))]);
   let [ listOfExercises, setListOfExercises ] = useState([]);
   let [ calday, setCalday ] = useState(date.getDate());
   let [ month, setMonth ] = useState(date.getMonth() + 1);
   let [ year, setYear ] = useState(date.getFullYear());
-  let [ week, setWeek ] = useState(0);
-  let [ day, setDay ] = useState(0);
 
 
   useEffect(()=>{
@@ -62,7 +67,7 @@ const Lifts = () => {
   }
 
   let getLiftNames = async () => {
-    let response = await axios.get('http://localhost:3000/lifts/names');
+    let response = await axios.get(`http://localhost:3000/lifts/names`);
     response = response.data.rows;
     let arrOfExercises = [];
     for ( let i = 0; i < response.length; i++ ){
@@ -76,9 +81,6 @@ const Lifts = () => {
     let copyOfEntries = [...listOfEntries];
     let newEntry = JSON.parse(JSON.stringify(entryTemplate));
     copyOfEntries.push(newEntry);
-
-    // console.log(copyOfEntries);
-
     setListOfEntries(copyOfEntries);
   };
 
@@ -109,14 +111,26 @@ const Lifts = () => {
       }
     }
     Promise.all(promises)
-    .then(()=>{console.log('Success! All entries updated or posted!')});
+    .then(()=>{
+      console.log('Success! All entries updated or posted!');
+      alert("Successfully updated!");
+      getLiftNames();
+      logGoToDate(year, month, calday);
+    })
+    .catch((err)=>{
+      console.log('SHIT HIT THE FAN', err);
+      alert("Well Shit... something went wrong...");
+      getLiftNames();
+      logGoToDate(year, month, calday);
+    });
   };
 
   // TODOs:
-  // Save to DB
   // Sort entries by exercise & allow user to add rows per exercise
   // Add Delete option to remove entries
   // Add check to prevent adding entries 1 year ahead (currently only prevents till next calendar year)
+  // Turn DateDisplay into a reusable component
+
   return (
     <div className="LiftsContainer">
       <div className='DateDisplay'>
