@@ -57,6 +57,7 @@ const Lifts = () => {
     let response = await axios.get(`http://localhost:3000/lifts/date/${date}`);
     response = response.data.rows;
     response = [JSON.parse(JSON.stringify(entryTemplate))].concat(response);
+    console.log(response);
     Promise.all([setListOfEntries(response)]);
   }
 
@@ -67,6 +68,7 @@ const Lifts = () => {
     for ( let i = 0; i < response.length; i++ ){
       arrOfExercises.push(response[i]['exercise']);
     }
+    arrOfExercises.sort();
     setListOfExercises(arrOfExercises);
   };
 
@@ -75,7 +77,7 @@ const Lifts = () => {
     let newEntry = JSON.parse(JSON.stringify(entryTemplate));
     copyOfEntries.push(newEntry);
 
-    console.log(copyOfEntries);
+    // console.log(copyOfEntries);
 
     setListOfEntries(copyOfEntries);
   };
