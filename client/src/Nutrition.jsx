@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { RiSave3Fill } from "react-icons/ri";
-import { MdAddBox, MdOutlineUpdate } from "react-icons/md";
-
 import FoodEntry from './FoodEntry.jsx';
+import DateController from './DateController.jsx';
+import BottomController from './BottomController.jsx';
+
 import { convertDatefromUnix, convertDatetoUnix } from './helpers.jsx';
 
 let date = new Date();
@@ -46,6 +46,8 @@ const Nutrition = () => {
     if(state==='year') {if (parseInt(value) > date.getFullYear()){value = `${date.getFullYear()}`}; setYear(parseInt(value))};
   }
 
+// Functions to pass to DateController
+
   let toToday = () => {
     let time = convertDatefromUnix(dateUnix);
     Promise.all([ setCalday(time.calday), setMonth(time.month), setYear(time.year) ])
@@ -61,6 +63,8 @@ const Nutrition = () => {
     Promise.all([setListOfEntries(response)]);
   }
 
+//--------------------------
+
   let getFoodsNames = async () => {
     let response = await axios.get(`http://localhost:3000/foods/names`);
     response = response.data.rows;
@@ -72,7 +76,7 @@ const Nutrition = () => {
     setListOfFoods(arrOfFoods);
   };
 
-  let addFood = () => {
+  let addEntry = () => {
     let copyOfEntries = [...listOfEntries];
     let newEntry = JSON.parse(JSON.stringify(entryTemplate));
     copyOfEntries.push(newEntry);
@@ -131,34 +135,16 @@ const Nutrition = () => {
 
 
   return(
-    <div className="LiftsContainer">
-      <div className="Title">Food Log</div>
-      <div className='DateDisplay'>
-        <div className='LabelContainer'>
-          <div className='Label'>Month</div>
-          <input className='Month' value={month} onChange={(e)=>{handleDateChange('month', e.target.value)}} ></input>
-        </div>
-        <div className='LabelContainer'>
-          <div className='Label' >Day</div>
-          <input className='Calday' value={calday} onChange={(e)=>{handleDateChange('calday', e.target.value)}} ></input>
-        </div>
-        <div className='LabelContainer'>
-          <div className='Label' >Year</div>
-          <input className='Year' value={year} onChange={(e)=>{handleDateChange('year', e.target.value)}} ></input>
-        </div>
-        <div className='button' onClick={toToday}>TODAY</div>
-        <div className='button' onClick={()=>{logGoToDate(year, month, calday)}}><MdOutlineUpdate className='UpdateBtn' /></div>
-      </div>
+    <div>
+      <div className="Title">Food &#38; Nutrition Log</div>
+      <DateController logGoToDate={logGoToDate} toToday={toToday} handleDateChange={handleDateChange} calday={calday} month={month} year={year} />
       {listOfEntries.map((entry, index) => {
         if (index === 0 || entry.mass === undefined) {return null};
         return (
           <FoodEntry entry={entry} key={index} foodsList={listOfFoods} entryState={listOfEntries} updateEntryState={setListOfEntries} index={index} />
         )
       })}
-      <div className= 'BtnRow'>
-        <div className='button' onClick={addFood} ><MdAddBox className='AddBtn'/></div>
-        <div className='button' onClick={queryDB} ><RiSave3Fill className='SaveBtn' /></div>
-      </div>
+      <BottomController addEntry={addEntry} queryDB={queryDB} />
     </div>
   )
 };
