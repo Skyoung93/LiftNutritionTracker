@@ -7,13 +7,13 @@ const Homepage = () => {
 
   return (
     <div className="HomeContainer">
-      <div className="NutritionPanel">
-        <div className='Btn' onClick={()=>{setDisplay('Nutrition')}} >
+      <div className="NutritionPanel" onClick={()=>{setDisplay('Nutrition')}} >
+        <div className='button NutritionButton' >
         Nutrition Tracker
         </div>
       </div>
-      <div className="LiftsPanel">
-        <div className='Btn' onClick={()=>{setDisplay('Lifts')}} >
+      <div className="LiftsPanel" onClick={()=>{setDisplay('Lifts')}} >
+        <div className='button LiftsButton' >
         Training Log
         </div>
       </div>

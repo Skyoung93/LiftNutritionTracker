@@ -113,12 +113,12 @@ const Nutrition = () => {
     .then(()=>{
       console.log('Success! All entries updated or posted!');
       alert("Successfully updated!");
-      getFoodsNames();
-      logGoToDate(year, month, calday);
     })
     .catch((err) => {
       console.log('SHIT HIT THE FAN', err);
       alert("Well Shit... something went wrong...");
+    })
+    .finally(()=>{
       getFoodsNames();
       logGoToDate(year, month, calday);
     });
@@ -132,6 +132,7 @@ const Nutrition = () => {
 
   return(
     <div className="LiftsContainer">
+      <div className="Title">Food Log</div>
       <div className='DateDisplay'>
         <div className='LabelContainer'>
           <div className='Label'>Month</div>

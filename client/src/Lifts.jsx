@@ -114,12 +114,12 @@ const Lifts = () => {
     .then(()=>{
       console.log('Success! All entries updated or posted!');
       alert("Successfully updated!");
-      getLiftNames();
-      logGoToDate(year, month, calday);
     })
     .catch((err)=>{
       console.log('SHIT HIT THE FAN', err);
       alert("Well Shit... something went wrong...");
+    })
+    .finally(()=>{
       getLiftNames();
       logGoToDate(year, month, calday);
     });
@@ -133,6 +133,7 @@ const Lifts = () => {
 
   return (
     <div className="LiftsContainer">
+      <div className="Title">Lifting Log</div>
       <div className='DateDisplay'>
         <div className='LabelContainer'>
           <div className='Label'>Month</div>
