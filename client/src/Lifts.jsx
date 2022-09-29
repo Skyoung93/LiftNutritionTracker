@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 
-import { RiSave3Fill } from "react-icons/ri";
-import { MdAddBox, MdOutlineUpdate } from "react-icons/md";
-
 import LiftEntry from './LiftEntry.jsx';
+import DateController from './DateController.jsx';
+import BottomController from './BottomController.jsx';
+
 import { convertDatefromUnix, convertDatetoUnix } from './helpers.jsx';
 
 let date = new Date();
@@ -77,7 +77,7 @@ const Lifts = () => {
     setListOfExercises(arrOfExercises);
   };
 
-  let addLift = () => {
+  let addEntry = () => {
     let copyOfEntries = [...listOfEntries];
     let newEntry = JSON.parse(JSON.stringify(entryTemplate));
     copyOfEntries.push(newEntry);
@@ -132,34 +132,16 @@ const Lifts = () => {
   // Turn DateDisplay into a reusable component
 
   return (
-    <div className="LiftsContainer">
+    <div>
       <div className="Title">Lifting Log</div>
-      <div className='DateDisplay'>
-        <div className='LabelContainer'>
-          <div className='Label'>Month</div>
-          <input className='Month' value={month} onChange={(e)=>{handleDateChange('month', e.target.value)}} ></input>
-        </div>
-        <div className='LabelContainer'>
-          <div className='Label' >Day</div>
-          <input className='Calday' value={calday} onChange={(e)=>{handleDateChange('calday', e.target.value)}} ></input>
-        </div>
-        <div className='LabelContainer'>
-          <div className='Label' >Year</div>
-          <input className='Year' value={year} onChange={(e)=>{handleDateChange('year', e.target.value)}} ></input>
-        </div>
-        <div className='button' onClick={toToday}>TODAY</div>
-        <div className='button' onClick={()=>{logGoToDate(year, month, calday)}}><MdOutlineUpdate className='UpdateBtn' /></div>
-      </div>
+      <DateController logGoToDate={logGoToDate} toToday={toToday} handleDateChange={handleDateChange} calday={calday} month={month} year={year} />
       {listOfEntries.map((entry, index) => {
         if (index === 0 || !entry.rating) {return null};
         return (
           <LiftEntry entry={entry} key={index} exerciseList={listOfExercises} entryState={listOfEntries} updateEntryState={setListOfEntries} index={index} />
         )
       })}
-      <div className= 'BtnRow'>
-        <div className='button' onClick={addLift} ><MdAddBox className='AddBtn'/></div>
-        <div className='button' onClick={queryDB} ><RiSave3Fill className='SaveBtn' /></div>
-      </div>
+      <BottomController addEntry={addEntry} queryDB={queryDB} />
     </div>
   )
 
