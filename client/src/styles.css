@@ -60,7 +60,7 @@ NavBar
   display: flex;
   justify-content: space-around;
   padding: 5px;
-  border: black 2px solid;
+  border: black 3px solid;
   border-bottom: 1px;
   border-radius: 7px 7px 0 0;
   background-color: #262626;
@@ -159,9 +159,9 @@ Common Components
   display: flex;
   justify-content: space-around;
   border: solid black 3px;
-  border-radius: 7px;
+  border-top: 1px solid black;
+  border-radius: 0 0 7px 7px;
   padding: 3px;
-  margin-top: 3px;
   background-color: rgb(179, 179, 179);
 }
 
@@ -178,6 +178,9 @@ Common Components
   align-items: center;
   justify-content: center;
   font-size: 35px;
+  border: solid 3px black;
+  border-bottom: 2px solid black;
+  background-color: rgb(179, 179, 179);
 }
 
 /*------------------------------------------------
@@ -205,13 +208,30 @@ Nutrition Tracker
 Lift Tracker
 ------------------------------------------------*/
 
-.LiftEntryContainer {
+.NoEntryContainer, .LiftEntryContainer {
   display: flex;
   flex-direction: column;
   border: solid black 3px;
   border-radius: 7px;
   margin: 3px 0;
   background-color: rgb(179, 179, 179);
+}
+
+.NoEntryContainer {
+  align-items: center;
+  justify-content: center;
+}
+
+.NoEntry {
+  font-size: 30px;
+}
+
+.NoEntryPic {
+  height: auto;
+  width: 300px;
+  border: black solid 2px;
+  border-radius: 7px;
+  margin: 2px;
 }
 
 .TopRow {
