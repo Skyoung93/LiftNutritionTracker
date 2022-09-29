@@ -62,7 +62,6 @@ const Lifts = () => {
     let response = await axios.get(`http://localhost:3000/lifts/date/${date}`);
     response = response.data.rows;
     response = [JSON.parse(JSON.stringify(entryTemplate))].concat(response);
-    console.log(response);
     Promise.all([setListOfEntries(response)]);
   }
 
@@ -125,6 +124,15 @@ const Lifts = () => {
     });
   };
 
+  let noLiftsPics = [
+    `https://i.gifer.com/A1M.gif`,
+    `https://media1.giphy.com/media/GgUPV5VvFytpu/200w.gif?cid=82a1493bzkbtxwcp49nlecq1j1xewxgjiyocvfp3ea6krfdx&rid=200w.gif&ct=g`,
+    `https://i.gifer.com/7Pme.gif`,
+    `https://media4.giphy.com/media/I0XkbK7YqF9u0/200w.gif?cid=82a1493bw24w6300v8i1k4czn73rmhmbnfossa9s9o5nxmy2&rid=200w.gif&ct=g`,
+    `https://s1.alice.al/vt/image/1618/19/1618193518166.gif`,
+    `https://i.gifer.com/NsHy.gif`,
+  ]
+
   // TODOs:
   // Sort entries by exercise & allow user to add rows per exercise
   // Add Delete option to remove entries
@@ -135,12 +143,19 @@ const Lifts = () => {
     <div>
       <div className="Title">Lifting Log</div>
       <DateController logGoToDate={logGoToDate} toToday={toToday} handleDateChange={handleDateChange} calday={calday} month={month} year={year} />
-      {listOfEntries.map((entry, index) => {
+      {listOfEntries.length > 1 ?
+      listOfEntries.map((entry, index) => {
         if (index === 0 || !entry.rating) {return null};
         return (
           <LiftEntry entry={entry} key={index} exerciseList={listOfExercises} entryState={listOfEntries} updateEntryState={setListOfEntries} index={index} />
         )
-      })}
+      })
+      :
+      <div className="NoEntryContainer">
+        <div className='NoEntry'>Go Train Today!</div>
+        <img className='NoEntryPic' src={`${noLiftsPics[Math.floor(Math.random() * noLiftsPics.length)]}`} ></img>
+      </div>
+      }
       <BottomController addEntry={addEntry} queryDB={queryDB} />
     </div>
   )

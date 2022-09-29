@@ -46,8 +46,6 @@ const Nutrition = () => {
     if(state==='year') {if (parseInt(value) > date.getFullYear()){value = `${date.getFullYear()}`}; setYear(parseInt(value))};
   }
 
-// Functions to pass to DateController
-
   let toToday = () => {
     let time = convertDatefromUnix(dateUnix);
     Promise.all([ setCalday(time.calday), setMonth(time.month), setYear(time.year) ])
@@ -62,8 +60,6 @@ const Nutrition = () => {
     response = [JSON.parse(JSON.stringify(entryTemplate))].concat(response);
     Promise.all([setListOfEntries(response)]);
   }
-
-//--------------------------
 
   let getFoodsNames = async () => {
     let response = await axios.get(`http://localhost:3000/foods/names`);
@@ -128,6 +124,16 @@ const Nutrition = () => {
     });
   };
 
+  let noFoodsPics = [
+    `https://media4.giphy.com/media/K4x1ZL36xWCf6/giphy.gif`,
+    `https://media1.giphy.com/media/iZjoLdS1nwMRq/200.gif`,
+    `https://thumbs.gfycat.com/AgreeableUnrealisticAcouchi-max-1mb.gif`,
+    `https://media1.giphy.com/media/SasDDqOSRclNu/200.gif`,
+    `https://i.imgur.com/Ub34F5n.gif?noredirect`,
+    `https://img.wattpad.com/dbafcac9248a2d6efd8001dc44cd8f401d278bc4/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f776174747061642d6d656469612d736572766963652f53746f7279496d6167652f756b52573357383971444d2d73773d3d2d3934383232343831392e313633316161613063356531326338623835313335353238383135322e676966`,
+    `https://c.tenor.com/IP1cFAOQQWsAAAAC/anime-food.gif`
+  ]
+
   // TODO:
   // Add Delete option to remove entries
   // Add check to prevent adding entries 1 year ahead (currently only prevents till next calendar year)
@@ -138,12 +144,19 @@ const Nutrition = () => {
     <div>
       <div className="Title">Food &#38; Nutrition Log</div>
       <DateController logGoToDate={logGoToDate} toToday={toToday} handleDateChange={handleDateChange} calday={calday} month={month} year={year} />
-      {listOfEntries.map((entry, index) => {
+      {listOfEntries.length > 1 ?
+      listOfEntries.map((entry, index) => {
         if (index === 0 || entry.mass === undefined) {return null};
         return (
           <FoodEntry entry={entry} key={index} foodsList={listOfFoods} entryState={listOfEntries} updateEntryState={setListOfEntries} index={index} />
         )
-      })}
+      })
+      :
+      <div className="NoEntryContainer">
+        <div className='NoEntry'>EAT! Stop starving yourself!</div>
+        <img className='NoEntryPic' src={`${noFoodsPics[Math.floor(Math.random() * noFoodsPics.length)]}`} ></img>
+      </div>
+      }
       <BottomController addEntry={addEntry} queryDB={queryDB} />
     </div>
   )
